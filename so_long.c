@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:07:50 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/09 19:11:54 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/10 16:52:16 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,45 +131,34 @@ int check_walls(char **arr)
 //Get valid map input
 //Use get next line to get each line of the map
 //Add each line to the 
-void	hook(void *param)
+void find_goopher(char **arr, int *x, int *y)
 {
-	mlx_t	*mlx;
-
-	mlx = param;
-
-	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
+	int i = 0;
+	int j = 0;
+	while(arr[i][j])
 	{
-		mlx_close_window(param);
-		// free()
+		j = 0;
+		while(arr[i][j])
+		{
+			if(arr[i][j] == 'P')
+			{
+				*x = i;
+				*y = j;
+				return ;
+			}
+			j++;
+		}
+		i++;
 	}
-	if (mlx_is_key_down(param, MLX_KEY_W))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_S))
-	{
-		image->instances[0].y += 5;
-		// image->instances[0].	
-	}
-	if (mlx_is_key_down(param, MLX_KEY_A))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_D))
-	{
-		image->instances[0].x += 5;
-		return ;
-	}
-
-	
-	if (mlx_is_key_down(param, MLX_KEY_UP))
-		image2->instances[0].y -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_DOWN))
-	{
-		image2->instances[0].y += 5;
-		// image->instances[0].	
-	}
-	if (mlx_is_key_down(param, MLX_KEY_LEFT))
-		image2->instances[0].x -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-		image2->instances[0].x += 5;
 }
+
+void empt()
+{
+	ft_printf("HALP");
+	// image->instances[0].y -= 150;
+}
+
+
 void free_all(char **arr)
 {
 	int i = 0;
@@ -180,8 +169,45 @@ void free_all(char **arr)
 	}
 	free(arr);
 }
+void move_hook(mlx_key_data_t key, void *param)
+{
+	int *status = (int *)param;
+	if(!status)
+	{}
+	// t_arr *arrr = param;
+
+	if(key.key == MLX_KEY_W && key.action == 1)
+	{
+			// image->instances[0].y -= 150;
+			*status = 1;
+			ft_printf("UP");
+	}
+	if(key.key == MLX_KEY_S && key.action == 1)
+	{
+		// image->instances[0].y += 150;
+		*status = 2;
+		ft_printf("DOWN");
+	}
+	if(key.key == MLX_KEY_D && key.action == 1)
+	{
+		// image->instances[0].x += 150;
+		*status = 3;
+		ft_printf("RIGHT");
+	}
+
+	if(key.key == MLX_KEY_A && key.action == 1)
+	{
+		*status = 4;
+		ft_printf("LEFT");
+		// image->instances[0].x -= 150;
+	}
+
+		//
+	// ft_printf("Siemanko");
+}
 int	main(void)
 {
+	int status = -1;
 	mlx_t	*mlx;
 	int lines_count = 0;
 	int fd = open("map.ber",O_RDONLY);
@@ -269,6 +295,7 @@ int	main(void)
 			j++;
 			cords_x += 150;
 		}
+		// mlx_keyfunc
 		cords_y += 150;
 		i++;
 	}
@@ -276,8 +303,21 @@ int	main(void)
 	//Swap Arr[el]
 	if (!mlx)
 		exit(EXIT_FAILURE);
-	
-	mlx_loop_hook(mlx, &hook, mlx);
+	// mlx_t	*mlx;
+
+	// mlx = param;
+	t_arr *arrr = malloc(sizeof(t_arr));
+	arrr->arr = arr;
+	mlx_key_data_t key_reg;
+	key_reg.action = MLX_PRESS;
+	// void key_func = *mlx_keyfunc(key_reg);
+		
+	// ft_printf("%s", t_arrray->arr[0]);
+	move_hook(key_reg,arrr->arr);
+	mlx_keyfunc sm = &move_hook;
+	mlx_key_hook(mlx,sm,&status);
+	ft_printf("Status %d",status);
+	// mlx_loop_hook(mlx, &hook, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	free_all(arr);
