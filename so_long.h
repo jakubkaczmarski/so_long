@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:10:15 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/15 18:35:40 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:53:19 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	clean_textures(t_arr *str_arr);
 int		count_lines(int fd);
 void	move_hook(mlx_key_data_t key, void *param);
 void	rewrite_map(t_arr *str_arr);
+
 #endif

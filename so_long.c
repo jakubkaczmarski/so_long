@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:02:29 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/15 18:41:44 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 19:35:21 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	move_hook(mlx_key_data_t key, void *param)
 			}
 			else
 			{
+				ft_printf("Duck number %d\n", str_arr->duck_count);
 				ft_printf("You need to pick up duckies first plz :)\n");
 				return ;
 			}
@@ -130,15 +131,16 @@ void	move_hook(mlx_key_data_t key, void *param)
 				&& str_arr->duck_count != 0))
 			{
 				str_arr->x++;
-				str_arr->arr[str_arr->x][str_arr->y] = 'P';
 				check_ducky(str_arr);
+				str_arr->arr[str_arr->x][str_arr->y] = 'P';
 				str_arr->arr[str_arr->x - 1][str_arr->y] = '0';
-				str_arr->img_arr[0]->instances[0].y += 150;
+				str_arr->img_arr[0]->instances[0].y -= 150;
 				rewrite_map(str_arr);
 				str_arr->score++;
 			}
 			else
 			{
+				ft_printf("Duck number %d\n", str_arr->duck_count);
 				ft_printf("You need to pick up duckies first plz :)\n");
 				return ;
 			}
@@ -168,6 +170,7 @@ void	move_hook(mlx_key_data_t key, void *param)
 			}
 			else
 			{
+				ft_printf("Duck number %d\n", str_arr->duck_count);
 				ft_printf("You need to pick up duckies first plz :)\n");
 				return ;
 			}
@@ -197,6 +200,7 @@ void	move_hook(mlx_key_data_t key, void *param)
 			}
 			else
 			{
+				ft_printf("Duck number %d\n", str_arr->duck_count);
 				ft_printf("You need to pick up duckies first plz :)\n");
 			}
 		}
@@ -212,6 +216,11 @@ int	main(void)
 
 	lines_count = 0;
 	fd = open("map.ber", O_RDONLY);
+	if(fd <= 0)
+	{
+		ft_printf("Error\n");
+		return 0;	
+	}
 	lines_count = count_lines(fd);
 	fd = open("map.ber", O_RDONLY);
 	str_arr = malloc(sizeof(t_arr));
