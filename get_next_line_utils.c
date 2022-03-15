@@ -6,12 +6,11 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:00:32 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/08 22:43:50 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:48:51 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
 
 void	*ft_memset(void *ptr, int value, size_t num)
 {
