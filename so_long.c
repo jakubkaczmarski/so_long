@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:07:50 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/10 16:52:16 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:35:59 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ mlx_image_t *image3;
 mlx_image_t *image4;
 mlx_image_t *image5;
 mlx_image_t *image6;
+t_arr *arrr;
 //0 == Empty space
 //1 == Wall
 //C == Collectible
@@ -131,16 +132,16 @@ int check_walls(char **arr)
 //Get valid map input
 //Use get next line to get each line of the map
 //Add each line to the 
-void find_goopher(char **arr, int *x, int *y)
+void find_goopher(t_arr *str_arr, int *x, int *y)
 {
 	int i = 0;
 	int j = 0;
-	while(arr[i][j])
+	while(str_arr->arr[i])
 	{
 		j = 0;
-		while(arr[i][j])
+		while(str_arr->arr[i][j])
 		{
-			if(arr[i][j] == 'P')
+			if(str_arr->arr[i][j] == 'P')
 			{
 				*x = i;
 				*y = j;
@@ -151,177 +152,320 @@ void find_goopher(char **arr, int *x, int *y)
 		i++;
 	}
 }
-
+void find_ducks(t_arr *str_arr)
+{
+	int i = 0;
+	int j = 0;
+	while(str_arr->arr[i])
+	{
+		j = 0;
+		while(str_arr->arr[i][j])
+		{
+			if(str_arr->arr[i][j] == 'C')
+			{
+				str_arr->duck_count++;
+			}
+			j++;
+		}
+		i++;
+	}
+}
 void empt()
 {
 	ft_printf("HALP");
 	// image->instances[0].y -= 150;
 }
 
-
-void free_all(char **arr)
+void delete_img(t_arr *str_arr)
 {
+	mlx_delete_image(str_arr->mlx, image);
+	mlx_delete_image(str_arr->mlx, image2);
+	mlx_delete_image(str_arr->mlx, image3);
+	mlx_delete_image(str_arr->mlx, image4);
+	mlx_delete_image(str_arr->mlx, image5);
+	mlx_delete_image(str_arr->mlx, image6);
+}
+void init_text(t_arr *str_arr)
+{
+	str_arr->xpm[0] = mlx_load_xpm42("water.xpm42");
+	str_arr->xpm[1] = mlx_load_xpm42("sand.xpm42");
+	str_arr->xpm[2] = mlx_load_xpm42("final_gopher.xpm42");
+	str_arr->xpm[3] = mlx_load_xpm42("exit.xpm42");
+	str_arr->xpm[4] = mlx_load_xpm42("duck_knife_out.xpm42");
+	str_arr->xpm[5] = mlx_load_xpm42("beaver.xpm42");
+	image3 = mlx_texture_to_image(str_arr->mlx,  &str_arr->xpm[0]->texture);
+	image4 = mlx_texture_to_image(str_arr->mlx,  &str_arr->xpm[1]->texture);
+	image = mlx_texture_to_image(str_arr->mlx, &str_arr->xpm[2]->texture);
+	image5 = mlx_texture_to_image(str_arr->mlx, &str_arr->xpm[3]->texture);
+	image2 = mlx_texture_to_image(str_arr->mlx,  &str_arr->xpm[4]->texture);
+	image6 = mlx_texture_to_image(str_arr->mlx,  &str_arr->xpm[5]->texture);
+}
+void rewrite_map(t_arr *str_arr)
+{	
 	int i = 0;
-	while (arr[i])
+	int j = 0;
+	int cords_x = 0;
+	int cords_y = 0;
+	while(str_arr->arr[i])
 	{
-		free(arr[i]);
+		j = 0;
+		cords_x = 0;
+		while(str_arr->arr[i][j])
+		{
+			if(str_arr->arr[i][j] == '1')
+			{	
+				mlx_image_to_window(str_arr->mlx, image3, cords_x, cords_y);
+			}else if(str_arr->arr[i][j] == '0')
+			{
+				
+				mlx_image_to_window(str_arr->mlx, image4, cords_x, cords_y);
+			}else if(str_arr->arr[i][j] == 'P')
+			{
+				mlx_image_to_window(str_arr->mlx, image4, cords_x, cords_y);
+				mlx_image_to_window(str_arr->mlx, image, cords_x, cords_y);
+			}else if(str_arr->arr[i][j] == 'E')
+			{
+				mlx_image_to_window(str_arr->mlx, image5, cords_x, cords_y);
+			}else if(str_arr->arr[i][j] == 'C')
+			{
+				mlx_image_to_window(str_arr->mlx, image4, cords_x, cords_y);
+				mlx_image_to_window(str_arr->mlx, image2, cords_x, cords_y);
+			}else if(str_arr->arr[i][j] == 'Q')
+			{
+				mlx_image_to_window(str_arr->mlx, image4, cords_x, cords_y);
+				mlx_image_to_window(str_arr->mlx, image6, cords_x, cords_y);
+			}
+			j++;
+			cords_x += 150;
+		}	
+		// mlx_keyfunc
+		cords_y += 150;
 		i++;
 	}
-	free(arr);
+}
+void free_all(t_arr *str_arr)
+{
+	int i = 0;
+	while (str_arr->arr[i])
+	{
+		free(str_arr->arr[i]);
+		i++;
+	}
+	// free(str_arr->arr[i]);
+	free(str_arr->arr);
+	delete_img(str_arr);
+}
+void check_ducky(t_arr *str_arr)
+{
+	if(str_arr->arr[str_arr->x][str_arr->y] == 'C')
+	{
+		str_arr->duck_count--;
+		// ft_printf("\nDuck count\n %d", str_arr->duck_count);
+	}
+}
+void exit_clean(t_arr *str_arr)
+{
+	str_arr->score++;
+	ft_printf("\nYOU WON:\nYour score is %d", str_arr->score);
+	// mlx_terminate(str_arr->mlx);
+	// mlx_delete_xpm42
+	delete_img(str_arr);
+	free_all(str_arr);
+	mlx_close_window(str_arr->mlx);
+	// free(str_arr);
 }
 void move_hook(mlx_key_data_t key, void *param)
 {
-	int *status = (int *)param;
-	if(!status)
-	{}
-	// t_arr *arrr = param;
 
+	t_arr *str_arr = (t_arr *)param;
+	find_goopher(str_arr,&str_arr->x, &str_arr->y);
+	check_ducky(str_arr);
+	if(key.key == MLX_KEY_ESCAPE && key.action == 1)
+	{
+		free_all(str_arr);
+		mlx_close_window(str_arr->mlx);
+		return ;
+	}
 	if(key.key == MLX_KEY_W && key.action == 1)
 	{
-			// image->instances[0].y -= 150;
-			*status = 1;
-			ft_printf("UP");
+		ft_printf("Score %d\n", str_arr->score);
+		if(str_arr->arr[str_arr->x - 1][str_arr->y] != '1')
+		{
+			if(str_arr->arr[str_arr->x - 1][str_arr->y] == 'E' && str_arr->duck_count == 0)
+			{
+					exit_clean(str_arr);
+					return ;
+				
+			}else if(!(str_arr->arr[str_arr->x - 1][str_arr->y] == 'E' && str_arr->duck_count != 0))
+			{
+				str_arr->x--;
+				check_ducky(str_arr);
+				str_arr->arr[str_arr->x][str_arr->y] = 'P'; 
+				str_arr->arr[str_arr->x + 1][str_arr->y] = '0';
+				image->instances[0].y -= 150;
+				rewrite_map(str_arr);
+				str_arr->score++;
+			}else{
+				ft_printf("You need to pick up duckies first plz :)\n");
+				return ;
+			}
+		}
 	}
 	if(key.key == MLX_KEY_S && key.action == 1)
 	{
-		// image->instances[0].y += 150;
-		*status = 2;
-		ft_printf("DOWN");
+		ft_printf("Score %d\n", str_arr->score);
+		if(str_arr->arr[str_arr->x + 1][str_arr->y] != '1')
+		{
+			if(str_arr->arr[str_arr->x + 1][str_arr->y] == 'E' && str_arr->duck_count == 0)
+			{
+					exit_clean(str_arr);
+					return ;
+			}else if(!(str_arr->arr[str_arr->x + 1][str_arr->y] == 'E' && str_arr->duck_count != 0))
+			{
+					str_arr->x++;
+					str_arr->arr[str_arr->x][str_arr->y] = 'P'; 
+					check_ducky(str_arr);
+					str_arr->arr[str_arr->x - 1][str_arr->y] = '0';
+					image->instances[0].y += 150;
+					rewrite_map(str_arr);
+					str_arr->score++;
+				
+			}else{
+				ft_printf("You need to pick up duckies first plz :)\n");
+				return ;
+			}
+		}
 	}
 	if(key.key == MLX_KEY_D && key.action == 1)
 	{
-		// image->instances[0].x += 150;
-		*status = 3;
-		ft_printf("RIGHT");
+		ft_printf("Score %d\n", str_arr->score);
+		if(str_arr->arr[str_arr->x][str_arr->y + 1] != '1')
+		{
+			if(str_arr->arr[str_arr->x][str_arr->y + 1] == 'E' && str_arr->duck_count == 0)
+			{
+				exit_clean(str_arr);
+				return ;
+			}else if(!(str_arr->arr[str_arr->x][str_arr->y + 1] == 'E' && str_arr->duck_count != 0))
+			{
+				str_arr->y++;
+				check_ducky(str_arr);
+				image->instances[0].x += 150;
+				str_arr->arr[str_arr->x][str_arr->y - 1] = '0';
+				str_arr->arr[str_arr->x][str_arr->y] = 'P';
+				// delete_img(str_arr);
+				rewrite_map(str_arr);
+				// ft_printf("RIGHT");
+				str_arr->score++;
+			}else{
+				ft_printf("You need to pick up duckies first plz :)\n");
+				return ;
+			}
+		}
 	}
+	
 
 	if(key.key == MLX_KEY_A && key.action == 1)
 	{
-		*status = 4;
-		ft_printf("LEFT");
-		// image->instances[0].x -= 150;
+		// ft_printf("LEFT");
+		ft_printf("Score %d\n", str_arr->score);
+		if(str_arr->arr[str_arr->x][str_arr->y - 1] != '1')
+		{
+			
+			if(str_arr->arr[str_arr->x][str_arr->y - 1] == 'E' && str_arr->duck_count == 0)
+			{
+				exit_clean(str_arr);
+				return ;
+			}else if(!(str_arr->arr[str_arr->x][str_arr->y - 1] == 'E' && str_arr->duck_count != 0))
+			{
+				str_arr->y--;
+				check_ducky(str_arr);
+				str_arr->score++;
+				str_arr->arr[str_arr->x][str_arr->y + 1] = '0';
+				str_arr->arr[str_arr->x][str_arr->y] = 'P';
+				image->instances[0].x -= 150;
+				// delete_img(str_arr);
+				rewrite_map(str_arr);
+			}else{
+				ft_printf("You need to pick up duckies first plz :)\n");
+			}
+		}
 	}
-
-		//
-	// ft_printf("Siemanko");
+}
+int countLines(int fd)
+{
+	int lines_count = 0;
+	char *line;
+	line = get_next_line(fd);
+	while(line)
+	{	
+		lines_count++;
+		free(line);
+		line = get_next_line(fd);
+	}
+	if(line)
+		free(line);
+	close(fd);
+	return lines_count;
 }
 int	main(void)
 {
-	int status = -1;
-	mlx_t	*mlx;
 	int lines_count = 0;
 	int fd = open("map.ber",O_RDONLY);
-	while(get_next_line(fd))
-	{	
-		lines_count++;
-	}
-	close(fd);
+	lines_count = countLines(fd);
 	fd = open("map.ber",O_RDONLY);
-	char **arr = malloc(sizeof(char *) * lines_count + 1);
+	t_arr *str_arr = malloc(sizeof(t_arr));
+	str_arr->arr = malloc(sizeof(char *) * lines_count);
+	str_arr->score = 0;
 	lines_count = 0;
-	arr[lines_count] = get_next_line(fd);
-	while(arr[lines_count])
+	str_arr->arr[lines_count] = get_next_line(fd);
+	while(str_arr->arr[lines_count])
 	{	
 		lines_count++;
-		arr[lines_count] = get_next_line(fd);
+		str_arr->arr[lines_count] = get_next_line(fd);
 		
 	}
 	lines_count = 0;
-	while(arr[lines_count])
+	while(str_arr->arr[lines_count])
 	{
-		// ft_printf("%s", arr[lines_count]);
 		lines_count++;
 	}
-	if(check_lenght(arr) == -1 || check_signs(arr, 'C') == 0 || check_signs(arr, 'P') == 0 || check_signs(arr, 'E') == 0 || check_walls(arr) == -1 || check_if_right_characs(arr) == -1)
+	if(check_lenght(str_arr->arr) == -1 || check_signs(str_arr->arr, 'C') == 0 || check_signs(str_arr->arr, 'P') == 0 || check_signs(str_arr->arr, 'E') == 0 || check_walls(str_arr->arr) == -1 || check_if_right_characs(str_arr->arr) == -1)
 	{
 		ft_printf("\nError");
 		ft_printf("Map Problem\n");
 		return 0;
 	};
 	
-	mlx = mlx_init(150 * ft_strlen(arr[0]), 150 * lines_count, "MLX42", true);
+	str_arr->mlx = mlx_init(150 * ft_strlen(str_arr->arr[0]), 150 * lines_count + 100, "MLX42", true);
+	init_text(str_arr);
+	rewrite_map(str_arr);
+	find_ducks(str_arr);
+	ft_printf("Duck number %d\n",str_arr->duck_count);
 	//Current coordinates
-	int i = 0;
-	int j = 0;
-	int cords_x = 0;
-	int cords_y = 0;
-	xpm_t* xpm;
-	while(arr[i])
-	{
-		j = 0;
-		cords_x = 0;
-		while(arr[i][j])
-		{
-			if(arr[i][j] == '1')
-			{
-				xpm = mlx_load_xpm42("water.xpm42");
-				image3 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image3, cords_x, cords_y);
-			}else if(arr[i][j] == '0')
-			{
-				xpm = mlx_load_xpm42("sand.xpm42");
-				image4 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image4, cords_x, cords_y);
-			}else if(arr[i][j] == 'P')
-			{
-				xpm = mlx_load_xpm42("sand.xpm42");
-				image4 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image4, cords_x, cords_y);
-				xpm = mlx_load_xpm42("final_gopher.xpm42");
-				image = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image, cords_x, cords_y);
-			}else if(arr[i][j] == 'E')
-			{
-				xpm = mlx_load_xpm42("exit.xpm42");
-				image5 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image5, cords_x, cords_y);
-			}else if(arr[i][j] == 'C')
-			{
-				xpm = mlx_load_xpm42("sand.xpm42");
-				image4 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image4, cords_x, cords_y);
-				xpm = mlx_load_xpm42("ducky.xpm42");
-				image2 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image2, cords_x, cords_y);
-			}else if(arr[i][j] == 'Q')
-			{
-				xpm = mlx_load_xpm42("sand.xpm42");
-				image4 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image4, cords_x, cords_y);
-				xpm = mlx_load_xpm42("beaver.xpm42");
-				image6 = mlx_texture_to_image(mlx, &xpm->texture);
-				mlx_image_to_window(mlx, image6, cords_x, cords_y);
-			}
-			j++;
-			cords_x += 150;
-		}
-		// mlx_keyfunc
-		cords_y += 150;
-		i++;
-	}
 	//Check if there are other characters in the map TODO
 	//Swap Arr[el]
-	if (!mlx)
+	if (!str_arr->mlx)
 		exit(EXIT_FAILURE);
-	// mlx_t	*mlx;
-
-	// mlx = param;
-	t_arr *arrr = malloc(sizeof(t_arr));
-	arrr->arr = arr;
-	mlx_key_data_t key_reg;
-	key_reg.action = MLX_PRESS;
-	// void key_func = *mlx_keyfunc(key_reg);
-		
-	// ft_printf("%s", t_arrray->arr[0]);
-	move_hook(key_reg,arrr->arr);
 	mlx_keyfunc sm = &move_hook;
-	mlx_key_hook(mlx,sm,&status);
-	ft_printf("Status %d",status);
-	// mlx_loop_hook(mlx, &hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	free_all(arr);
-	//150 for each thing
-	//150 * 35
+	mlx_key_hook(str_arr->mlx,sm,str_arr);
+	mlx_loop(str_arr->mlx);
+	// if(!str_arr->arr[0])
+	// {
+	// free_all(str_arr->xpm);
+	// mlx_delete_xpm42(str_arr->xpm);
+	// mlx_delete_xpm42(&str_arr->xpm[0]);
+	// delete_img(str_arr);
+	// }
+	// free(str_arr->xpm);
+	// free(str_arr);
+	// ft_printf("HALP\n\n\n");
+	// close(fd);x
+	// mlx_terminate(str_arr->mlx);
+	mlx_delete_texture(&str_arr->xpm[0]->texture);
+	mlx_delete_texture(&str_arr->xpm[1]->texture);
+	mlx_delete_texture(&str_arr->xpm[2]->texture);
+	mlx_delete_texture(&str_arr->xpm[3]->texture);
+	mlx_delete_texture(&str_arr->xpm[4]->texture);
+	mlx_delete_texture(&str_arr->xpm[5]->texture);
 	return (EXIT_SUCCESS);
 }

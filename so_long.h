@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:10:15 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/10 16:02:40 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/15 15:52:50 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,14 @@
 # include "ft_printf.h"
 typedef struct s_array_thingy{
 	char **arr;
+	xpm_t	*xpm[6];
+	mlx_t	*mlx;
+	int		x;
+	int		y;
+	int		duck_count;
+	int		score;
 } t_arr;
+char	*ft_itoa(int n);
 size_t	strlen(const char *ch);
 char	*get_next_line(int fd);
 void	*ft_memmove(void *dest, const void *src, size_t n);
