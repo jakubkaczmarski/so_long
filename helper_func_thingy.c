@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:33:17 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 14:53:00 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:20:25 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	free_all(t_arr *str_arr)
 		i++;
 	}
 	free(str_arr->arr);
+	mlx_delete_image(str_arr->mlx, str_arr->img_arr[6]);
 	delete_img(str_arr);
 }
 

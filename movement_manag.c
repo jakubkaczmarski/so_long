@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 20:13:29 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 14:51:07 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:16:58 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	change_img_t(t_arr *str_arr)
 		str_arr->x--;
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 		str_arr->arr[str_arr->x + 1][str_arr->y] = 'E';
-		str_arr->img_arr[0]->instances[0].y -= 150;
 		str_arr->exit = 0;
 	}
 	else
@@ -54,7 +53,6 @@ void	change_img_t(t_arr *str_arr)
 		check_ducky(str_arr);
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 		str_arr->arr[str_arr->x + 1][str_arr->y] = '0';
-		str_arr->img_arr[0]->instances[0].y -= 150;
 	}
 	str_arr->score++;
 }
@@ -67,7 +65,6 @@ void	change_img_s(t_arr *str_arr)
 		check_ducky(str_arr);
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 		str_arr->arr[str_arr->x - 1][str_arr->y] = 'E';
-		str_arr->img_arr[0]->instances[0].y += 150;
 		str_arr->exit = 0;
 	}
 	else
@@ -76,7 +73,6 @@ void	change_img_s(t_arr *str_arr)
 		check_ducky(str_arr);
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 		str_arr->arr[str_arr->x - 1][str_arr->y] = '0';
-		str_arr->img_arr[0]->instances[0].y += 150;
 	}
 	str_arr->score++;
 }
@@ -87,7 +83,6 @@ void	change_img_d(t_arr *str_arr)
 	{
 		str_arr->y++;
 		check_ducky(str_arr);
-		str_arr->img_arr[0]->instances[0].x += 150;
 		str_arr->arr[str_arr->x][str_arr->y - 1] = 'E';
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 		str_arr->exit = 0;
@@ -96,7 +91,6 @@ void	change_img_d(t_arr *str_arr)
 	{
 		str_arr->y++;
 		check_ducky(str_arr);
-		str_arr->img_arr[0]->instances[0].x += 150;
 		str_arr->arr[str_arr->x][str_arr->y - 1] = '0';
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 	}
@@ -109,7 +103,6 @@ void	change_img_a(t_arr *str_arr)
 	{
 		str_arr->y--;
 		check_ducky(str_arr);
-		str_arr->img_arr[0]->instances[0].x -= 150;
 		str_arr->arr[str_arr->x][str_arr->y + 1] = 'E';
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 		str_arr->exit = 0;
@@ -118,7 +111,6 @@ void	change_img_a(t_arr *str_arr)
 	{
 		str_arr->y--;
 		check_ducky(str_arr);
-		str_arr->img_arr[0]->instances[0].x -= 150;
 		str_arr->arr[str_arr->x][str_arr->y + 1] = '0';
 		str_arr->arr[str_arr->x][str_arr->y] = 'P';
 	}
