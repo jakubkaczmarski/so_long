@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:02:29 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:21:42 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:34:19 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	move_hook(mlx_key_data_t key, void *param)
 	check_ducky(str_arr);
 	if (key.key == MLX_KEY_ESCAPE && key.action == 1)
 	{
-		// mlx_close_window(str_arr->mlx);
+		free_all(str_arr);
+		mlx_close_window(str_arr->mlx);
 		return ;
 	}
 	if (key.key == MLX_KEY_W && key.action == 1)
@@ -105,8 +106,7 @@ int	main(void)
 	t_arr		*str_arr;
 
 	lines_count = 0;
-	fd = open("map.ber", O_RDONLY);
-	if (fd_check(fd) == 1)
+	if (fd_check(&fd) == 1)
 		return (0);
 	if (line_check(count_lines(fd, &lines_count)) == 1)
 		return (0);
@@ -121,9 +121,9 @@ int	main(void)
 	if (!str_arr->mlx)
 		exit(EXIT_FAILURE);
 	init_text(str_arr);
+	mlx_close_hook(str_arr->mlx, &free_all, str_arr);
 	mlx_key_hook(str_arr->mlx, &move_hook, str_arr);
 	mlx_loop(str_arr->mlx);
 	clean_textures(str_arr);
-	free(str_arr);
 	return (EXIT_SUCCESS);
 }

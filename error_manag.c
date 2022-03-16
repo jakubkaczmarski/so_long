@@ -6,15 +6,17 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:36:04 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 14:54:36 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:35:05 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	fd_check(int fd)
+int	fd_check(int *fd)
 {
-	if (fd <= 0)
+	*fd = 0;
+	*fd = open("map.ber", O_RDONLY);
+	if (*fd <= 0)
 	{
 		ft_printf("Error\n");
 		return (1);

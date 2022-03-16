@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:33:17 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:20:25 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:32:56 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	clean_textures(t_arr *str_arr)
 	mlx_delete_texture(&str_arr->xpm[4]->texture);
 	mlx_delete_texture(&str_arr->xpm[5]->texture);
 	mlx_terminate(str_arr->mlx);
+	free(str_arr);
 }
 
 int	error_check(t_arr *str_arr)
@@ -70,10 +71,12 @@ int	error_check(t_arr *str_arr)
 		return (1);
 }
 
-void	free_all(t_arr *str_arr)
+void	free_all(void *str_arrr)
 {
-	int	i;
+	t_arr	*str_arr;
+	int		i;
 
+	str_arr = (t_arr *)str_arrr;
 	i = 0;
 	while (str_arr->arr[i])
 	{

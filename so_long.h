@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:10:15 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 14:55:50 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:35:02 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_array_thingy{
 	int			cords_y;
 	mlx_image_t	*img_arr[7];
 }	t_arr;
+
 void	draw_to_window(t_arr *str_arr, int i, int j);
 void	draw_special(t_arr *str_arr, int i, int j);
 void	change_img_t(t_arr *str_arr);
@@ -64,10 +65,10 @@ int		check_if_right_characs(char **arr);
 int		check_signs(char **arr, char symbol);
 void	check_ducky(t_arr *str_arr);
 void	exit_clean(t_arr *str_arr);
-void	free_all(t_arr *str_arr);
+void	free_all(void *str_arr);
 int		error_check(t_arr *str_arr);
 void	clean_textures(t_arr *str_arr);
-int		fd_check(int fd);
+int		fd_check(int *fd);
 int		count_lines(int fd, int *lines_count);
 int		init_arr(t_arr *str_arr, int lines_count, int fd);
 void	move_hook(mlx_key_data_t key, void *param);
