@@ -6,29 +6,32 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:33:17 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/15 20:11:01 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:53:00 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	count_lines(int fd)
+int	count_lines(int fd, int *lines_count)
 {
-	int		lines_count;
 	char	*line;
 
-	lines_count = 0;
+	*lines_count = 0;
 	line = get_next_line(fd);
+	if (!line)
+	{
+		return (-1);
+	}
 	while (line)
 	{
-		lines_count++;
+		*lines_count = *lines_count + 1;
 		free(line);
 		line = get_next_line(fd);
 	}
 	if (line)
 		free(line);
 	close(fd);
-	return (lines_count);
+	return (*lines_count);
 }
 
 void	clean_textures(t_arr *str_arr)
@@ -52,7 +55,7 @@ int	error_check(t_arr *str_arr)
 		|| check_walls(str_arr->arr) == -1
 		|| check_if_right_characs(str_arr->arr) == -1)
 	{
-		ft_printf("\nError");
+		ft_printf("Error\n");
 		ft_printf("Map Problem\n");
 		i = 0;
 		while (str_arr->arr[i])
