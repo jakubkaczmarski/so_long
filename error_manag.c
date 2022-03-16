@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:36:04 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:35:05 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:51:27 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,15 @@ void	display_score(t_arr *str_arr)
 	mlx_delete_image(str_arr->mlx, str_arr->img_arr[6]);
 	str_arr->img_arr[6] = mlx_put_string(str_arr->mlx, str_arr->str, 1, 1);
 	free(str_arr->str);
+}
+
+int	check_for_err(t_arr *str_arr)
+{
+	if (!str_arr->xpm[0] || !str_arr->xpm[1] || !str_arr->xpm[2]
+		|| !str_arr->xpm[4] || !str_arr->xpm[5])
+	{
+		ft_printf ("No images in the directory fix it plz");
+		return (-1);
+	}
+	return (0);
 }

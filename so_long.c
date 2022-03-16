@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:02:29 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:34:19 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:46:13 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,8 @@ int	main(void)
 	str_arr->mlx = mlx_init(
 			150 * ft_strlen(str_arr->arr[0]),
 			150 * lines_count, "MLX42", true);
-	if (!str_arr->mlx)
+	if (!str_arr->mlx || init_text(str_arr) == -1)
 		exit(EXIT_FAILURE);
-	init_text(str_arr);
 	mlx_close_hook(str_arr->mlx, &free_all, str_arr);
 	mlx_key_hook(str_arr->mlx, &move_hook, str_arr);
 	mlx_loop(str_arr->mlx);

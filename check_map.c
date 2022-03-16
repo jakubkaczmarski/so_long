@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:23:30 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 14:47:06 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/16 15:51:19 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	delete_img(t_arr *str_arr)
 	mlx_delete_image(str_arr->mlx, str_arr->img_arr[5]);
 }
 
-void	init_text(t_arr *str_arr)
+int	init_text(t_arr *str_arr)
 {
 	str_arr->xpm[0] = mlx_load_xpm42("water.xpm42");
 	str_arr->xpm[1] = mlx_load_xpm42("sand.xpm42");
@@ -30,6 +30,8 @@ void	init_text(t_arr *str_arr)
 	str_arr->xpm[3] = mlx_load_xpm42("exit.xpm42");
 	str_arr->xpm[4] = mlx_load_xpm42("duck_knife_out.xpm42");
 	str_arr->xpm[5] = mlx_load_xpm42("beaver.xpm42");
+	if (check_for_err(str_arr) == -1)
+		return (-1);
 	str_arr->img_arr[2] = mlx_texture_to_image(str_arr->mlx,
 			& str_arr->xpm[0]->texture);
 	str_arr->img_arr[3] = mlx_texture_to_image(str_arr->mlx,
@@ -44,6 +46,7 @@ void	init_text(t_arr *str_arr)
 			& str_arr->xpm[5]->texture);
 	rewrite_map(str_arr);
 	find_ducks(str_arr);
+	return (0);
 }
 
 int	check_lenght(char **arr)
