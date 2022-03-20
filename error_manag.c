@@ -6,19 +6,33 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:36:04 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:51:27 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/20 17:34:10 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	fd_check(int *fd)
+int	ft_strcmp(char *s1, char *s2)
 {
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	fd_check(char *str, int *fd)
+{
+	if (ft_strcmp(&str[ft_strlen(str) - 4], ".ber") != 0)
+	{
+		ft_printf("Filename broken\n");
+		return (1);
+	}
 	*fd = 0;
-	*fd = open("map.ber", O_RDONLY);
+	*fd = open(str, O_RDONLY);
 	if (*fd <= 0)
 	{
-		ft_printf("Error\n");
 		return (1);
 	}
 	return (0);

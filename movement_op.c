@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 13:40:22 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 14:48:39 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:52:00 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ void	manage_exit_w(t_arr *str_arr)
 	str_arr->score++;
 	ft_printf("Duck number %d\n", str_arr->duck_count);
 	ft_printf("You need to pick up duckies first plz :)\n");
+}
+
+int	error_throw(void)
+{
+	ft_printf("Error\n");
+	return (0);
 }

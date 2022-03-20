@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:10:15 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:50:18 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/20 16:53:39 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ void	exit_clean(t_arr *str_arr);
 void	free_all(void *str_arr);
 int		error_check(t_arr *str_arr);
 void	clean_textures(t_arr *str_arr);
-int		fd_check(int *fd);
+int		fd_check(char *str, int *fd);
 int		count_lines(int fd, int *lines_count);
 int		init_arr(t_arr *str_arr, int lines_count, int fd);
 void	move_hook(mlx_key_data_t key, void *param);
 void	rewrite_map(t_arr *str_arr);
+int		ft_strcmp(char *s1, char *s2);
 int		find_exits(t_arr *str_arr);
 void	manage_exit_w(t_arr *str_arr);
 void	manage_exit_s(t_arr *str_arr);
@@ -84,5 +85,5 @@ int		manage_w(t_arr *str_arr);
 int		manage_d(t_arr *str_arr);
 int		manage_s(t_arr *str_arr);
 int		line_check(int lines_count);
-
+int		error_throw(void);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jkaczmar <jkaczmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 18:02:29 by jkaczmar          #+#    #+#             */
-/*   Updated: 2022/03/16 15:46:13 by jkaczmar         ###   ########.fr       */
+/*   Updated: 2022/03/20 17:33:44 by jkaczmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,24 @@ int	init_arr(t_arr *str_arr, int lines_count, int fd)
 	return (lines_count);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	int			lines_count;
 	int			fd;
 	t_arr		*str_arr;
 
 	lines_count = 0;
-	if (fd_check(&fd) == 1)
-		return (0);
+	if (argc != 2 || fd_check(argv[1], &fd) == 1)
+		return (error_throw());
 	if (line_check(count_lines(fd, &lines_count)) == 1)
 		return (0);
-	fd = open("map.ber", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	str_arr = malloc(sizeof(t_arr));
 	lines_count = init_arr(str_arr, lines_count, fd);
 	if (error_check(str_arr) == 0)
 		return (0);
-	str_arr->mlx = mlx_init(
-			150 * ft_strlen(str_arr->arr[0]),
-			150 * lines_count, "MLX42", true);
+	str_arr->mlx = mlx_init(150 * ft_strlen(str_arr->arr[0]),
+			150 * lines_count, "so_long", true);
 	if (!str_arr->mlx || init_text(str_arr) == -1)
 		exit(EXIT_FAILURE);
 	mlx_close_hook(str_arr->mlx, &free_all, str_arr);
